@@ -62,17 +62,26 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: Stack(
         children: [
-          UiKitView(
+          AndroidView(
             viewType: 'camera_view',
-            creationParamsCodec: StandardMessageCodec(),
-          ),
-          CustomPaint(
-            // painter: BoxPainter(boxes: boxes == null ? [] : [boxes!]),
-            painter: BoxPainter(boxes: boxes),
-          ),
+            onPlatformViewCreated: onPlatformViewCreated,
+            creationParamsCodec: const StandardMessageCodec(),
+          )
+          // UiKitView(
+          //   viewType: 'camera_view',
+          //   creationParamsCodec: StandardMessageCodec(),
+          // ),
+          // CustomPaint(
+          //   // painter: BoxPainter(boxes: boxes == null ? [] : [boxes!]),
+          //   painter: BoxPainter(boxes: boxes),
+          // ),
         ],
       ),
     );
+  }
+
+  void onPlatformViewCreated(int viewId) {
+    print('View Id: $viewId');
   }
 }
 

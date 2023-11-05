@@ -17,7 +17,6 @@
 		E50BAA342AF6D29500914226 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50BAA332AF6D29500914226 /* CameraViewController.swift */; };
 		E50BAA362AF6DCC600914226 /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E50BAA352AF6DCC600914226 /* YOLOv3TinyInt8LUT.mlmodel */; };
 		E50BAA382AF6EFF800914226 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50BAA372AF6EFF800914226 /* CameraView.swift */; };
-		E50BAA3E2AF823AF00914226 /* yolov5s_320.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E50BAA3D2AF823AE00914226 /* yolov5s_320.mlmodel */; };
 		E50BAA402AF8262C00914226 /* yolov5s.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E50BAA3F2AF8262C00914226 /* yolov5s.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -63,7 +62,6 @@
 		E50BAA332AF6D29500914226 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		E50BAA352AF6DCC600914226 /* YOLOv3TinyInt8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3TinyInt8LUT.mlmodel; sourceTree = "<group>"; };
 		E50BAA372AF6EFF800914226 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		E50BAA3D2AF823AE00914226 /* yolov5s_320.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = yolov5s_320.mlmodel; sourceTree = "<group>"; };
 		E50BAA3F2AF8262C00914226 /* yolov5s.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = yolov5s.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,7 +117,6 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				E50BAA3D2AF823AE00914226 /* yolov5s_320.mlmodel */,
 				E50BAA3F2AF8262C00914226 /* yolov5s.mlmodel */,
 				E50BAA352AF6DCC600914226 /* YOLOv3TinyInt8LUT.mlmodel */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
@@ -284,7 +281,6 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				E50BAA362AF6DCC600914226 /* YOLOv3TinyInt8LUT.mlmodel in Sources */,
-				E50BAA3E2AF823AF00914226 /* yolov5s_320.mlmodel in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				E50BAA382AF6EFF800914226 /* CameraView.swift in Sources */,
 				E50BAA402AF8262C00914226 /* yolov5s.mlmodel in Sources */,
