@@ -118,8 +118,6 @@ class CameraView: UIView {
         print("Before starting camera session, videoPreviewLayer frame: \(videoPreviewLayer?.frame ?? CGRect.zero)")
          captureSession?.startRunning()
          print("After starting camera session, videoPreviewLayer frame: \(videoPreviewLayer?.frame ?? CGRect.zero)")
-         // ...
-
     }
 
     // Stop camera session when view is removed
@@ -131,29 +129,6 @@ class CameraView: UIView {
 
 extension CameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-//        // Convert CMSampleBuffer to a suitable format
-//        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-//
-//        // Lock the base address of the pixel buffer
-//        CVPixelBufferLockBaseAddress(imageBuffer, [])
-//
-//        // Get the base address and data size of the pixel buffer
-//        guard let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer) else {
-//            CVPixelBufferUnlockBaseAddress(imageBuffer, [])
-//            return
-//        }
-//
-//        let dataSize = CVPixelBufferGetDataSize(imageBuffer)
-//
-//        // Copy the data to a Data object
-//        let data = Data(bytes: baseAddress, count: dataSize)
-//
-//        // Unlock the base address of the pixel buffer
-//        CVPixelBufferUnlockBaseAddress(imageBuffer, [])
-//
-//        // Convert Data to [UInt8]
-//        let uint8Buffer = [UInt8](data)
         
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             print("Failed to convert CMSampleBuffer to CVPixelBuffer")
@@ -176,8 +151,8 @@ extension CameraView {
         // CoreML의 모델인 FlowerClassifier를 객체를 생성 후,
         // Vision 프레임워크인 VNCoreMLModel 컨터이너를 사용하여 CoreML의 model에 접근한다.
 
-//        guard let coreMLModel = try? YOLOv3TinyInt8LUT(configuration: MLModelConfiguration()),
-        guard let coreMLModel = try? yolov5s(configuration: MLModelConfiguration()),
+        guard let coreMLModel = try? drone_20231110(configuration: MLModelConfiguration()),
+//        guard let coreMLModel = try? yolov5s(configuration: MLModelConfiguration()),
               let visionModel = try? VNCoreMLModel(for: coreMLModel.model) else {
             fatalError("Loading CoreML Model Failed")
         }

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:math';
+
+import 'box_painter.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -17,6 +20,10 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
 
+    channelInit();
+  }
+
+  Future<void> channelInit() async {
     _channel.setMethodCallHandler((MethodCall call) async {
       if (call.method == 'receiveCameraData') {
         final Map outerMap = call.arguments; // arguments를 맵으로 변환
@@ -45,6 +52,7 @@ class _HomeViewState extends State<HomeView> {
             boxes.add(
               BoxModel(
                 rect: Rect.fromLTWH(rectX, rectY, rectWidth, rectHeight),
+                // rect: Rect.fromLTWH(x, y, width, height),
                 label: label,
                 confidence: confidence,
               ),
@@ -58,100 +66,53 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    // print('boxes: $boxes');
-    return Scaffold(
-      body: Stack(
-        children: [
-          AndroidView(
-            viewType: 'camera_view',
-            onPlatformViewCreated: onPlatformViewCreated,
-            creationParamsCodec: const StandardMessageCodec(),
-          )
-          // UiKitView(
-          //   viewType: 'camera_view',
-          //   creationParamsCodec: StandardMessageCodec(),
-          // ),
-          // CustomPaint(
-          //   // painter: BoxPainter(boxes: boxes == null ? [] : [boxes!]),
-          //   painter: BoxPainter(boxes: boxes),
-          // ),
-        ],
-      ),
-    );
-  }
+    print('boxes: $boxes');
+    boxes.forEach((box) {
+      print(box.rect.left);
+      print(box.rect.right);
+      print(box.rect.top);
+      print(box.rect.bottom);
+    });
 
-  void onPlatformViewCreated(int viewId) {
-    print('View Id: $viewId');
-  }
-}
-
-class BoxModel {
-  final Rect rect;
-  final String label;
-  final double confidence;
-
-  BoxModel({
-    required this.rect,
-    required this.label,
-    required this.confidence,
-  });
-}
-
-class BoxPainter extends CustomPainter {
-  final List<BoxModel> boxes;
-
-  BoxPainter({required this.boxes});
-
-  List<Color> colors = [
-    // Color(0xFFF26D6F),
-    // Color(0xFFF2835D),
-    // Color(0xFFF39C67),
-    // Color(0xFFF3B45F),
-    Color(0xFFDE3E47),
-    Colors.blue,
-    Color(0xFF7AB974),
-    Color(0xFFFFC16E),
-  ];
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final TextPainter textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
-
-    for (int i = 0; i < boxes.length; i++) {
-      final BoxModel box = boxes[i];
-      final Paint paint = Paint()
-        ..color = colors[i % 4]
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3;
-
-      canvas.drawRect(box.rect, paint);
-
-      textPainter.text = TextSpan(
-        text: '${box.label}(${box.confidence.toStringAsFixed(2)})',
-        style: TextStyle(
-            color: colors[i % 4], fontSize: 16, fontWeight: FontWeight.w500),
+    if (Platform.isIOS) {
+      return Scaffold(
+        body: Stack(
+          children: [
+            UiKitView(
+              viewType: 'camera_view',
+              creationParamsCodec: StandardMessageCodec(),
+            ),
+            CustomPaint(
+              // painter: BoxPainter(boxes: boxes == null ? [] : [boxes!]),
+              painter: YoloBoxPainter(boxes: boxes),
+            ),
+          ],
+        ),
       );
-      textPainter.layout();
-
-      // Save the canvas state
-      canvas.save();
-
-      // Rotate the canvas
-      canvas.translate(box.rect.left, box.rect.top);
-      canvas.rotate(pi / 2);
-
-      // Draw the text
-      textPainter.paint(canvas, Offset(0, 0));
-
-      // Restore the canvas state
-      canvas.restore();
+    } else if (Platform.isAndroid) {
+      return Scaffold(
+        body: Stack(
+          children: [
+            AndroidView(
+              viewType: 'camera_view',
+              onPlatformViewCreated: onPlatformViewCreated,
+              creationParamsCodec: const StandardMessageCodec(),
+            ),
+            CustomPaint(
+              // painter: BoxPainter(boxes: boxes == null ? [] : [boxes!]),
+              painter: YoloBoxPainter(boxes: boxes),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container();
     }
   }
 
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  void onPlatformViewCreated(int viewId) {
+    setState(() {
+      print('🔥View Id: $viewId');
+    });
   }
 }
